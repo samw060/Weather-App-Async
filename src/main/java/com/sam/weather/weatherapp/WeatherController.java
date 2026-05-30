@@ -5,7 +5,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-public class HelloController {
+public class WeatherController {
     /**
      * Creates the client object we need to send and receive data.
      */
@@ -54,8 +54,8 @@ public class HelloController {
         cityTextBox.setText("");
         cityTextBox.setPromptText("Enter new city");
         city.setText(inputCity);
-        temperature.setText(String.valueOf(weather.temperature));
-        condition.setText(weather.condition);
+        temperature.setText(String.valueOf(weather.getTemperature()));
+        condition.setText(weather.getCondition());
     }
 
 

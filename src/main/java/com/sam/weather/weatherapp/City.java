@@ -6,10 +6,10 @@ package com.sam.weather.weatherapp;
  */
 public class City {
     /** The current temperature in degrees Celsius. */
-    public int temperature;
+    private int temperature;
 
     /** The current weather condition */
-    public String condition;
+    private String condition;
 
     /**
      * Constructs a new city given the weather data.
@@ -18,6 +18,44 @@ public class City {
      */
     public City(int temperature, String condition){
         this.temperature = temperature;
+        this.condition = condition;
+    }
+
+    // Standard JavaDoc way to do getters and setters, look back at this for reference
+
+    /**
+     * Returns the current temperature in degrees Celsius.
+     *
+     * @return the temperature in degrees Celsius.
+     */
+    public int getTemperature(){
+        return temperature;
+    }
+
+    /**
+     * Returns the current condition of the weather.
+     *
+     * @return the condition of the weather.
+     */
+    public String getCondition(){
+        return condition;
+    }
+
+    /**
+     * Sets the current temperature.
+     *
+     * @param temperature the temperature in degrees Celsius.
+     */
+    public void setTemperature(int temperature){
+        this.temperature = temperature;
+    }
+
+    /**
+     * Sets the current weather conditions.
+     *
+     * @param condition the condition of the weather.
+     */
+    public void setCondition(String condition){
         this.condition = condition;
     }
 }

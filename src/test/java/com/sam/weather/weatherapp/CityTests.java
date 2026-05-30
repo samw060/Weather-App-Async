@@ -14,12 +14,24 @@ public class CityTests {
     }
 
     @Test
-    void testCityTemperature(){
-        assertEquals(20, city.temperature);
+    void testCityTemperatureGetter(){
+        assertEquals(20, city.getTemperature());
     }
 
     @Test
-    void testCityString(){
-        assertEquals("moderate rain", city.condition);
+    void testCityTemperatureSetter(){
+        city.setTemperature(30);
+        assertEquals(30, city.getTemperature());
+    }
+
+    @Test
+    void testCityConditionGetter(){
+        assertEquals("moderate rain", city.getCondition());
+    }
+
+    @Test
+    void testCityConditionSetter(){
+        city.setCondition("very rainy");
+        assertEquals("very rainy", city.getCondition());
     }
 }
