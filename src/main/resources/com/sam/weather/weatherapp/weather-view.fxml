@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="433.0" prefWidth="498.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sam.weather.weatherapp.HelloController">
+  <padding>
+    <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+  </padding>
+  <Label alignment="CENTER" prefHeight="17.0" prefWidth="116.0" text="Weather App" />
+  <TextField fx:id="cityTextBox" promptText="Enter City..." />
+  <Button fx:id="searchButton" mnemonicParsing="false" onAction="#searchWeather" text="Search" />
+
+  <Label fx:id="city" text="City" />
+  <Label fx:id="temperature" text="Temp" />
+  <Label fx:id="condition" text="Label" />
+</VBox>
