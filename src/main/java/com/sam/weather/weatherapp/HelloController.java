@@ -1,12 +1,9 @@
 package com.sam.weather.weatherapp;
 
-import com.Client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-
-import java.net.http.HttpClient;
 
 public class HelloController {
     /**

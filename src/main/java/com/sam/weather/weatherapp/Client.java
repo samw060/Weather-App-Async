@@ -1,9 +1,8 @@
-package com;
+package com.sam.weather.weatherapp;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.sam.weather.weatherapp.City;
 
 import java.net.URI;
 import java.net.http.HttpClient;
