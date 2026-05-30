@@ -8,8 +8,9 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
 
-/** Represents the object that sends and recieves the GET requests to get weatherh data. */
+/** Represents the object that sends and receives the GET requests to get weather data. */
 public class Client {
     /** Creates the client to send and receive the requests */
     private HttpClient client = HttpClient.newHttpClient();
@@ -19,11 +20,15 @@ public class Client {
 
     /**
      * Makes the url request we want to send in url, creates http request object with url.
-     * Sets up the response object to receive from the server via the client for the request and
-     * how we want to receive the data as a string in the body handler.
+     * Then makes an async api request with the request and how we want the body of the response to be (String).
+     * We use "thenApply" to change the data into the format we want to use, get the body then parse it,
+     * this is then returned to the searchWeather function in WeatherController to update the UI, if
+     * an error is thrown it then returns a failed future to tell the UI it hasn't worked.
+     *
      * @param city is the city the user entered.
+     * @return the city to be completed in the future due to async call or null if there's an error.
      */
-    public City getCityWeather(String city){
+    public CompletableFuture<City> getCityWeather(String city){
         try {
             String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
             HttpRequest request = HttpRequest.newBuilder()
@@ -31,10 +36,11 @@ public class Client {
                     .GET()
                     .build();
 
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            return parseJson(response.body());
+            return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(HttpResponse::body)
+                    .thenApply(this::parseJson);
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            return CompletableFuture.failedFuture(e);
         }
     }
 

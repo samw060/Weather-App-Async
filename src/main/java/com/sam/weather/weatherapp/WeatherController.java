@@ -1,9 +1,15 @@
 package com.sam.weather.weatherapp;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+
+/**
+ * Now this is being made to work with async http requests so that the UI doesn't free while waiting for api requests.
+ *
+ */
 
 public class WeatherController {
     /**
@@ -41,21 +47,41 @@ public class WeatherController {
     private Label condition;
 
     /**
-     * Gets the city input from the text field entered by user, updates the text field while searching
-     * gets the info from the client and creates a new city object, then sets the labels with the
-     * respective info.
+     * Gets the city input from the text field entered by user, sets textbox to searching and disable button to stop more searches.
+     * now need to finish handling the clients async call we made earlier to update the UI, as you cannot return the values from the
+     * async request.
+     * It updates all the relevant fields and the text box and re-enables the button if request is successful.
+     * If unsuccessful, the UI updates with the exception to show the city not found.
      */
     @FXML
     private void searchWeather(){
         String inputCity = cityTextBox.getText();
         cityTextBox.setPromptText("Searching...");
-        City weather = client.getCityWeather(inputCity);
+        searchButton.setDisable(true);
 
-        cityTextBox.setText("");
-        cityTextBox.setPromptText("Enter new city");
-        city.setText(inputCity);
-        temperature.setText(String.valueOf(weather.getTemperature()));
-        condition.setText(weather.getCondition());
+        client.getCityWeather(inputCity)
+                .thenAccept(cityData -> {
+                    Platform.runLater(() ->{
+                        city.setText(inputCity);
+                        temperature.setText(String.valueOf(cityData.getTemperature()));
+                        condition.setText(cityData.getCondition());
+                        cityTextBox.clear();
+                        cityTextBox.setPromptText("Enter city name...");
+                        searchButton.setDisable(false);
+                    });
+                })
+                .exceptionally(e ->{
+                    Platform.runLater(() -> {
+                        city.setText("City not found");
+                        temperature.setText("0");
+                        condition.setText("");
+                        cityTextBox.setPromptText("Enter city name...");
+                        searchButton.setDisable(false);
+                    });
+                    return null;
+                });
+
+
     }
 
 
