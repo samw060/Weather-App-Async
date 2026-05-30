@@ -1,5 +1,6 @@
 package com.sam.weather.weatherapp;
 
+import com.Client;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -9,9 +10,7 @@ import java.net.http.HttpClient;
 
 public class HelloController {
 
-    String apiKey;
-
-
+    Client client = new Client();
 
     @FXML
     private TextField cityTextBox;
@@ -30,8 +29,13 @@ public class HelloController {
 
     @FXML
     private void searchWeather(){
-        String city = cityTextBox.getText();
+        String inputCity = cityTextBox.getText();
         cityTextBox.setText("Searching...");
+        City weather = client.getCityWeather(inputCity);
+
+        city.setText(inputCity);
+        temperature.setText(String.valueOf(weather.temperature));
+        condition.setText(weather.condition);
     }
 
 

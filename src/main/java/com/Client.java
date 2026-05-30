@@ -1,4 +1,10 @@
-import javax.net.ssl.HttpsURLConnection;
+package com;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.sam.weather.weatherapp.City;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -21,7 +27,7 @@ public class Client {
      * how we want to receive the data as a string in the body handler.
      * @param city is the city the user entered.
      */
-    public void getCityWeather(String city){
+    public City getCityWeather(String city){
         try {
             String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
             HttpRequest request = HttpRequest.newBuilder()
@@ -30,9 +36,17 @@ public class Client {
                     .build();
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
+            return parseJson(response.body());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+    private City parseJson(String json){
+        JsonObject parsed = JsonParser.parseString(json).getAsJsonObject();
+        JsonObject main = parsed.getAsJsonObject("main");
+        JsonArray weather = parsed.getAsJsonArray("weather");
+        return new City(main.get("temp").getAsInt(), weather.get(0).getAsJsonObject().get("main").getAsString());
+    }
+
 }
