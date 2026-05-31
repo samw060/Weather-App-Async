@@ -75,6 +75,7 @@ public class WeatherController {
 
                     manager.addEntry(cityData);
 
+
                 })
                 .exceptionally(e ->{
                     WeatherException we = (WeatherException) e.getCause(); // casts the error into a weather exception

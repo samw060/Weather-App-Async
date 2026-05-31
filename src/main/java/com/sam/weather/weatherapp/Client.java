@@ -18,6 +18,8 @@ public class Client {
     /** The api key for openweathermap.org */
     private String apiKey = "fc6ba67fa7afd9770cc11af85e00dcaa";
 
+    private WeatherCache cache = new WeatherCache();
+
     /**
      * Makes the url request we want to send in url, creates http request object with url.
      * Then makes an async api request with the request and how we want the body of the response to be (String).
@@ -35,6 +37,13 @@ public class Client {
      * @return the city object to be completed in the future due to async call or null if there's an error.
      */
     public CompletableFuture<City> getCityWeather(String city){
+
+        City cached = cache.get(city);
+        if (cached != null){
+            return CompletableFuture.completedFuture(cached);
+        }
+
+
         try {
             String url = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
             HttpRequest request = HttpRequest.newBuilder()
@@ -55,7 +64,11 @@ public class Client {
                         }
                         return response.body();
                     })
-                    .thenApply(body -> parseJson(body, city));
+                    .thenApply(body -> parseJson(body, city))
+                    .thenApply(cityData -> {
+                        cache.put(city, cityData);
+                        return cityData;
+                    });
         } catch (Exception e) {
             return CompletableFuture.failedFuture(new WeatherException(e.getMessage(), 0));
         }
