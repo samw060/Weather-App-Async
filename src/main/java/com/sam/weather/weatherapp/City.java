@@ -1,5 +1,6 @@
 package com.sam.weather.weatherapp;
 
+
 /**
  * Represents the weather data for a city.
  * Holds parsed data to update the UI.
@@ -17,7 +18,7 @@ public class City {
      * @param condition the current weather condition.
      */
     public City(int temperature, String condition){
-        this.temperature = temperature;
+        this.temperature = Math.toIntExact(Math.round(temperature - 273.15));
         this.condition = condition;
     }
 
