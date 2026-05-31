@@ -50,7 +50,7 @@ public class Client {
      * @param json raw json string from client.
      * @return a city object filled with data parsed from the string.
      */
-    private City parseJson(String json){
+    City parseJson(String json){
         JsonObject parsed = JsonParser.parseString(json).getAsJsonObject();
         JsonObject main = parsed.getAsJsonObject("main");
         JsonArray weather = parsed.getAsJsonArray("weather");
