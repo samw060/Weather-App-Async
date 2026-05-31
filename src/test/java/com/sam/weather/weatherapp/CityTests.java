@@ -10,27 +10,38 @@ public class CityTests {
 
     @BeforeEach
     void SetUp(){
-        city = new City(20, "moderate rain");
+        city = new City("Sheffield", 293, "moderate rain");
     }
 
     @Test
-    void testCityTemperatureGetter(){
+    void testGetCityName(){
+        assertEquals("Sheffield", city.getName());
+    }
+
+    @Test
+    void testSetCityName(){
+        city.setName("London");
+        assertEquals("London", city.getName());
+    }
+
+    @Test
+    void testGetCityTemperature(){
         assertEquals(20, city.getTemperature());
     }
 
     @Test
-    void testCityTemperatureSetter(){
+    void testSetCityTemperature(){
         city.setTemperature(30);
         assertEquals(30, city.getTemperature());
     }
 
     @Test
-    void testCityConditionGetter(){
+    void testGetCityCondition(){
         assertEquals("moderate rain", city.getCondition());
     }
 
     @Test
-    void testCityConditionSetter(){
+    void testSetCityCondition(){
         city.setCondition("very rainy");
         assertEquals("very rainy", city.getCondition());
     }

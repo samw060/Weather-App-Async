@@ -17,7 +17,7 @@ public class ClientTests {
         client = new Client();
         json = """
                 {
-                    "main": {"temp": 10},
+                    "main": {"temp": 283},
                     "weather": [{"main": "rainy"}]
                 }
                 """;
@@ -25,13 +25,13 @@ public class ClientTests {
 
     @Test
     void testParseJsonReturnsCorrectTemperature(){
-        City city = client.parseJson(json);
+        City city = client.parseJson(json, "Sheffield");
         assertEquals(10, city.getTemperature());
     }
 
     @Test
     void testParseJsonReturnsCorrectCondition(){
-        City city = client.parseJson(json);
+        City city = client.parseJson(json, "Sheffield");
         assertEquals("rainy", city.getCondition());
     }
 

@@ -6,6 +6,10 @@ package com.sam.weather.weatherapp;
  * Holds parsed data to update the UI.
  */
 public class City {
+
+    /** The city's name. */
+    private String name;
+
     /** The current temperature in degrees Celsius. */
     private int temperature;
 
@@ -17,12 +21,22 @@ public class City {
      * @param temperature the current temperature in degrees Celsius.
      * @param condition the current weather condition.
      */
-    public City(int temperature, String condition){
+    public City(String name, int temperature, String condition){
+        this.name = name;
         this.temperature = Math.toIntExact(Math.round(temperature - 273.15));
         this.condition = condition;
     }
 
     // Standard JavaDoc way to do getters and setters, look back at this for reference
+
+    /**
+     * Returns the name of the city.
+     *
+     * @return the city's name.
+     */
+    public String getName(){
+        return name;
+    }
 
     /**
      * Returns the current temperature in degrees Celsius.
@@ -40,6 +54,15 @@ public class City {
      */
     public String getCondition(){
         return condition;
+    }
+
+    /**
+     * Sets the name of the city.
+     *
+     * @param name the city's name.
+     */
+    public void setName(String name){
+        this.name = name;
     }
 
     /**

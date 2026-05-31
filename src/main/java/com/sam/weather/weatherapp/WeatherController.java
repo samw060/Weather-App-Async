@@ -2,6 +2,7 @@ package com.sam.weather.weatherapp;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -16,6 +17,8 @@ public class WeatherController {
      * Creates the client object we need to send and receive data.
      */
     Client client = new Client();
+
+    DatabaseManager manager = new DatabaseManager();
 
     /**
      * Text box the user enters the name of the city into.
@@ -69,6 +72,9 @@ public class WeatherController {
                         cityTextBox.setPromptText("Enter city name...");
                         searchButton.setDisable(false);
                     });
+
+                    manager.addEntry(cityData);
+
                 })
                 .exceptionally(e ->{
                     WeatherException we = (WeatherException) e.getCause(); // casts the error into a weather exception

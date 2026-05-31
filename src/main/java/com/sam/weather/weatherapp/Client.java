@@ -55,7 +55,7 @@ public class Client {
                         }
                         return response.body();
                     })
-                    .thenApply(this::parseJson);
+                    .thenApply(body -> parseJson(body, city));
         } catch (Exception e) {
             return CompletableFuture.failedFuture(new WeatherException(e.getMessage(), 0));
         }
@@ -67,11 +67,11 @@ public class Client {
      * @param json raw json string from client.
      * @return a city object filled with data parsed from the string.
      */
-    City parseJson(String json){
+    City parseJson(String json, String name){
         JsonObject parsed = JsonParser.parseString(json).getAsJsonObject();
         JsonObject main = parsed.getAsJsonObject("main");
         JsonArray weather = parsed.getAsJsonArray("weather");
-        return new City(main.get("temp").getAsInt(), weather.get(0).getAsJsonObject().get("main").getAsString());
+        return new City(name, main.get("temp").getAsInt(), weather.get(0).getAsJsonObject().get("main").getAsString());
     }
 
 }

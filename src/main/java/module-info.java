@@ -9,6 +9,7 @@ module com.sam.weather.weatherapp {
     requires eu.hansolo.tilesfx;
     requires java.net.http;
     requires com.google.gson;
+    requires java.sql;
 
     opens com.sam.weather.weatherapp to javafx.fxml;
     exports com.sam.weather.weatherapp;
