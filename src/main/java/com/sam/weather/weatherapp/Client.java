@@ -25,8 +25,14 @@ public class Client {
      * this is then returned to the searchWeather function in WeatherController to update the UI, if
      * an error is thrown it then returns a failed future to tell the UI it hasn't worked.
      *
+     * List of different status codes meaning:
+     * 404 - Resource not found, which is why city is not found.
+     * 401 - Unauthorized, which is due to the API key being invalid.
+     * 429 - Too many requests.
+     * !200 - Any other error which isn't "OK" (200).
+     *
      * @param city is the city the user entered.
-     * @return the city to be completed in the future due to async call or null if there's an error.
+     * @return the city object to be completed in the future due to async call or null if there's an error.
      */
     public CompletableFuture<City> getCityWeather(String city){
         try {
@@ -37,10 +43,21 @@ public class Client {
                     .build();
 
             return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                    .thenApply(HttpResponse::body)
+                    .thenApply(response -> {
+                        if (response.statusCode() == 404) {
+                            throw new WeatherException("City not found", 404);
+                        }else if (response.statusCode() == 401){
+                            throw new WeatherException("Invalid API key", 401);
+                        }else if (response.statusCode() == 429){
+                            throw new WeatherException("Too many requests, please wait", 429);
+                        }else if (response.statusCode() != 200){
+                            throw new WeatherException("Server error", response.statusCode());
+                        }
+                        return response.body();
+                    })
                     .thenApply(this::parseJson);
         } catch (Exception e) {
-            return CompletableFuture.failedFuture(e);
+            return CompletableFuture.failedFuture(new WeatherException(e.getMessage(), 0));
         }
     }
 

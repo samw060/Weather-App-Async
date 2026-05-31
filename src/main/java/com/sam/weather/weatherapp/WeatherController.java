@@ -71,8 +71,9 @@ public class WeatherController {
                     });
                 })
                 .exceptionally(e ->{
+                    WeatherException we = (WeatherException) e.getCause(); // casts the error into a weather exception
                     Platform.runLater(() -> {
-                        city.setText("City not found");
+                        city.setText(we.getMessage());
                         temperature.setText("0");
                         condition.setText("");
                         cityTextBox.setPromptText("Enter city name...");
