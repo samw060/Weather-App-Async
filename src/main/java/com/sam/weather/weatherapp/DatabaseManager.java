@@ -3,10 +3,16 @@ package com.sam.weather.weatherapp;
 import java.sql.*;
 
 public class DatabaseManager {
-    private final String URL = "jdbc:sqlite:weather.db";
+    private String URL = "jdbc:sqlite:weather.db";
     private Connection connection;
 
     public DatabaseManager(){
+        connect();
+        createTable();
+    }
+
+    public DatabaseManager(String URL){
+        this.URL = URL;
         connect();
         createTable();
     }

@@ -13,7 +13,7 @@ public class ClientTests {
     String json;
 
     @BeforeEach
-    void SetUp(){
+    void setUp(){
         client = new Client();
         json = """
                 {
